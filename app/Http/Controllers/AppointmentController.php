@@ -344,7 +344,39 @@ class AppointmentController extends Controller
                 ])
                 ->firstOrFail();
 
-            return response()->json($appointment);
+            // Aplatir les données pour faciliter l'accès côté frontend
+            return response()->json([
+                'id' => $appointment->id,
+                'appointment_id' => $appointment->id,
+                'date' => $appointment->date,
+                'heure' => $appointment->heure,
+                'consultation_type' => $appointment->consultation_type ?? 'Consultation générale',
+                'statut' => $appointment->statut,
+                'motif' => $appointment->motif,
+                'notes' => $appointment->notes,
+
+                // Informations patient aplatties
+                'patient_id' => $appointment->patient->id,
+                'patient_nom' => $appointment->patient->nom,
+                'patient_prenom' => $appointment->patient->prenom,
+                'patient_email' => $appointment->patient->email,
+                'patient_telephone' => $appointment->patient->telephone,
+                'patient_address' => $appointment->patient->address,
+                'patient_photo_profil' => $appointment->patient->photo_profil,
+                'patient_groupe_sanguin' => $appointment->patient->groupe_sanguin,
+                'patient_antecedents_medicaux' => $appointment->patient->antecedents_medicaux,
+                'patient_allergies' => $appointment->patient->allergies,
+                'patient_traitements_chroniques' => $appointment->patient->traitements_chroniques,
+
+                // Informations médecin aplatties
+                'medecin_id' => $appointment->medecin->id,
+                'medecin_nom' => $appointment->medecin->nom,
+                'medecin_prenom' => $appointment->medecin->prenom,
+                'medecin_specialite' => $appointment->medecin->specialite,
+
+                'created_at' => $appointment->created_at,
+                'updated_at' => $appointment->updated_at,
+            ]);
         } catch (\Exception $e) {
             return response()->json([
                 'message' => 'Rendez-vous non trouvé',

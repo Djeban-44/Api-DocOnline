@@ -19,12 +19,18 @@ class Ordonnance extends Model
         'date_validite',
         'instructions',
         'renouvellements',
+        'avec_cachet',
+        'bon_assurance',
+        'numero_carte_assurance',
+        'organisme_assurance',
         'statut',
     ];
 
     protected $casts = [
         'date_prescription' => 'date',
         'date_validite' => 'date',
+        'avec_cachet' => 'boolean',
+        'bon_assurance' => 'boolean',
     ];
 
     /**
@@ -73,5 +79,13 @@ class Ordonnance extends Model
     public function getCanBeRenewedAttribute(): bool
     {
         return $this->renouvellements > 0 && !$this->is_expired;
+    }
+
+    /**
+     * Vérifier si un bon d'assurance est requis
+     */
+    public function getRequiresInsuranceAttribute(): bool
+    {
+        return $this->bon_assurance && !empty($this->numero_carte_assurance);
     }
 }

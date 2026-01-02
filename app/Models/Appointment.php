@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Appointment extends Model
 {
@@ -13,16 +14,38 @@ class Appointment extends Model
         'patient_id',
         'medecin_id',
         'date',
-        'time',
+        'heure',
         'consultation_type',
-        'status',
+        'statut',
+        'motif',
+        'notes',
     ];
 
-    public function patient() {
-        return $this->belongsTo(Patient::class, 'patient_id');
+    protected $casts = [
+        'date' => 'date',
+    ];
+
+    /**
+     * Relation avec le patient
+     */
+    public function patient(): BelongsTo
+    {
+        return $this->belongsTo(Patient::class);
     }
 
-    public function medecin() {
-        return $this->belongsTo(Medecin::class, 'medecin_id');
+    /**
+     * Relation avec le médecin
+     */
+    public function medecin(): BelongsTo
+    {
+        return $this->belongsTo(Medecin::class);
+    }
+
+    /**
+     * Relation avec l'ordonnance
+     */
+    public function ordonnance()
+    {
+        return $this->hasOne(Ordonnance::class);
     }
 }

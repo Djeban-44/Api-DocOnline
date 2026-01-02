@@ -17,6 +17,15 @@ return new class extends Migration
             $table->date('date_validite');
             $table->text('instructions')->nullable();
             $table->integer('renouvellements')->default(0);
+            
+            // Champs pour la validation médicale
+            $table->boolean('avec_cachet')->default(true);
+            
+            // Champs pour l'assurance
+            $table->boolean('bon_assurance')->default(false);
+            $table->string('numero_carte_assurance')->nullable();
+            $table->string('organisme_assurance')->nullable();
+            
             $table->enum('statut', ['active', 'expiree', 'annulee'])->default('active');
             $table->timestamps();
         });
