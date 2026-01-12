@@ -32,7 +32,8 @@ class Medecin extends Authenticatable
         'type',
         'fonction',
         'commune',
-        'ville'
+        'ville',
+        'signature_path'
     ];
 
     protected $hidden = [

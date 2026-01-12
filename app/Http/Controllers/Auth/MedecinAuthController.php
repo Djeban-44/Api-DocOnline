@@ -35,7 +35,14 @@ class MedecinAuthController extends Controller
                 'type' => 'required|string|in:independant,clinique',
                 'clinique_id' => 'required_if:type,clinique|nullable|exists:cliniques,id',
                 'fonction' => 'nullable|string|max:255',
+                'signature' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // condition type image
             ]);
+            
+            //  Gestion du fichier signature
+    $signaturePath = null;
+    if ($request->hasFile('signature')) {
+        $signaturePath = $request->file('signature')->store('signatures', 'public');
+    }
 
             // Préparer les données du médecin
             $medecinData = [
@@ -49,6 +56,7 @@ class MedecinAuthController extends Controller
                 'bio' => $validated['bio'] ?? null,
                 'type' => $validated['type'],
                 'clinique_id' => $validated['type'] === 'clinique' ? $validated['clinique_id'] : null,
+                'signature_path' => $signaturePath, // ajouter le chemin signature
             ];
 
             // Gérer l'upload de la photo
