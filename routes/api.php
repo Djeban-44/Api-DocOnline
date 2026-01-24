@@ -222,3 +222,4 @@ Route::prefix('patient')->middleware('auth:sanctum')->group(function () {
     Route::get('/ordonnances', [PatientAuthController::class, 'getOrdonnances']);
     Route::get('/arrets-maladie', [PatientAuthController::class, 'getArretsMaladie']);
 });
+Route::post('/medecins/{id}/signature', [MedecinController::class, 'uploadSignature']);

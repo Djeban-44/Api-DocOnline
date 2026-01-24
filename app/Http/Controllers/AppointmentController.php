@@ -340,7 +340,7 @@ class AppointmentController extends Controller
                 ->where('medecin_id', $medecinId)
                 ->with([
                     'patient:id,nom,prenom,email,telephone,address,photo_profil,groupe_sanguin,antecedents_medicaux,allergies,traitements_chroniques',
-                    'medecin:id,nom,prenom,specialite'
+                    'medecin:id,nom,prenom,specialite,signature'
                 ])
                 ->firstOrFail();
 
@@ -373,6 +373,7 @@ class AppointmentController extends Controller
                 'medecin_nom' => $appointment->medecin->nom,
                 'medecin_prenom' => $appointment->medecin->prenom,
                 'medecin_specialite' => $appointment->medecin->specialite,
+                'medecin_signature' => $appointment->medecin->signature,
 
                 'created_at' => $appointment->created_at,
                 'updated_at' => $appointment->updated_at,

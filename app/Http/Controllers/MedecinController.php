@@ -269,4 +269,23 @@ class MedecinController extends Controller
 
         return $days[$englishDay] ?? $englishDay;
     }
+    public function uploadSignature(Request $request, $id)
+{
+    $request->validate([
+        'signature' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+    ]);
+
+    $medecin = Medecin::findOrFail($id);
+
+    $path = $request->file('signature')->store('signatures', 'public');
+
+    $medecin->signature_path = $path;
+    $medecin->save();
+
+    return response()->json([
+        'message' => 'Signature uploadée avec succès',
+        'signature_url' => asset('storage/' . $path),
+    ]);
+}
+
 }

@@ -73,6 +73,7 @@ class MedecinSeeder extends Seeder
                 'clinique_id' => $clinique?->id,
                 'type' => $type,
                 'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
+                'signature_path' => 'signatures/default-signature.png',
             ]);
 
             // Si le médecin travaille en clinique, on peut l'attacher à d'autres cliniques aussi
